@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class ReviewService {
     public ReviewResponseDto getReviews(Long productId, Long cursor, int size) {
         // 상품이 있는 지 확인
         Product product = productRepository.findById(productId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 상품입니다."));
+                new NoSuchElementException("존재하지 않는 상품입니다."));
 
         List<Review> reviews;
 
@@ -61,7 +62,7 @@ public class ReviewService {
     public void createReview(Long productId, ReviewDto reviewDto, MultipartFile multipartFile) {
         // 상품이 있는 지 확인
         Product product = productRepository.findById(productId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 상품입니다."));
+                new NoSuchElementException("존재하지 않는 상품입니다."));
 
 
         // 유저가 이 상품에 대해 이미 작성한 리뷰가 있는지 확인
@@ -83,14 +84,14 @@ public class ReviewService {
         Review review = Review.builder()
                 .userId(reviewDto.getUserId())
                 .product(product)
-                .score(reviewDto.getScore())
+                .score(score)
                 .imageUrl(imageUrl)
                 .content(reviewDto.getContent())
                 .build();
 
         reviewRepository.save(review);
         // 총 리뷰 수, 평균 점수 업데이트
-        updateProductReviewStats(product, reviewDto.getScore());
+        updateProductReviewStats(product, score);
     }
 
     private void updateProductReviewStats(Product product, Integer newScore) {
