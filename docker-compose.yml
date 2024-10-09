@@ -17,6 +17,11 @@ services:
       - "--collation-server=utf8mb4_unicode_ci"
     networks:
       - local_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'   # CPU 50%
+          memory: 512M    # 메모리 512MB
 
   application:
     container_name: app
@@ -33,6 +38,11 @@ services:
       - database
     networks:
       - local_network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'   # CPU 50%
+          memory: 512M    # 메모리 512MB
 
 networks:
   local_network:
