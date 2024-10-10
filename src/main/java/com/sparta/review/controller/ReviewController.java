@@ -15,11 +15,11 @@ public class ReviewController {
 
     @GetMapping("/products/{productId}/reviews")
     public ReviewResponseDto getReviews(
-            @PathVariable
+            @PathVariable(name = "productId")
             Long productId,
-            @RequestParam(required = false)
+            @RequestParam(name = "cursor", required = false)
             Long cursor,
-            @RequestParam(defaultValue = "10")
+            @RequestParam(name ="size", defaultValue = "10")
             int size
     ) {
         return reviewService.getReviews(productId, cursor, size);
@@ -27,9 +27,9 @@ public class ReviewController {
 
     @PostMapping("/products/{productId}/reviews")
     public ResponseEntity<String> createReview(
-            @PathVariable
+            @PathVariable(name = "productId")
             Long productId,
-            @RequestPart("review")
+            @RequestPart(value = "review")
             ReviewDto reviewDto,
             @RequestPart(value = "image", required = false)
             MultipartFile image
