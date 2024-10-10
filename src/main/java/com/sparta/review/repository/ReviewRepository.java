@@ -3,8 +3,6 @@ package com.sparta.review.repository;
 import com.sparta.review.entity.Review;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,6 +21,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     boolean existsByProductIdAndUserId(Long productId, Long userId);
 
-    @Query("SELECT AVG(r.score) FROM Review  r WHERE r.product.id = :productId")
-    Double getAverageScoreByProductId(@Param("productId") Long productId);
+
 }

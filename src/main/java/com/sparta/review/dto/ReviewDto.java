@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class ReviewDto {
     private Long id;
     private Long userId;
+    private Long productId;
     private Integer score;
     private String content;
     private String imageUrl;
@@ -24,6 +25,7 @@ public class ReviewDto {
         return ReviewDto.builder()
                 .id(review.getId())
                 .userId(review.getUserId())
+                .productId(review.getProductId())
                 .score(review.getScore())
                 .content(review.getContent())
                 .imageUrl(review.getImageUrl())
