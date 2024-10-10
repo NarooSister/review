@@ -39,15 +39,13 @@ public class ReviewService {
             reviews = reviewRepository.findByProductIdAndIdLessThanOrderByIdDesc(productId, cursor, pageable);
         }
 
-        // 리뷰가 없을 때
+        // 리뷰가 없을 때 예외 던지기
         if (reviews.isEmpty()) {
-            return new ReviewResponseDto(0L, 0.0, null, Collections.emptyList());
+            throw new NoSuchElementException("해당 상품에 대한 리뷰가 없습니다.");
         }
 
-        // 다음 페이지 존재여부
-        boolean hasNext = reviews.size() > size;
-
-        if (hasNext) reviews.remove(reviews.size() - 1);
+        // 다음 페이지가 있는지 확인한 뒤 마지막 1개의 리뷰 삭제
+        if (reviews.size() > size) reviews.remove(reviews.size() - 1);
 
         List<ReviewDto> reviewDtos = reviews.stream()
                 .map(ReviewDto::fromEntity)
@@ -64,13 +62,13 @@ public class ReviewService {
         Product product = productRepository.findById(productId).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 상품입니다."));
 
-
         // 유저가 이 상품에 대해 이미 작성한 리뷰가 있는지 확인
         if (reviewRepository.existsByProductIdAndUserId(productId, reviewDto.getUserId())) {
             throw new IllegalArgumentException("하나의 상품에 대해 하나의 리뷰만 작성 가능합니다.");
         }
 
         Integer score = reviewDto.getScore();
+
         // 점수 제한
         if (score < 1 || score > 5) {
             throw new IllegalArgumentException("1점에서 5점 사이의 점수만 줄 수 있습니다.");
