@@ -20,9 +20,7 @@ public class Review {
 
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
     private Integer score;
 
