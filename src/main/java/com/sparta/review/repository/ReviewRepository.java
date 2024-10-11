@@ -16,10 +16,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 커서 기반 페이징 (cursor가 있을 때)
     List<Review> findByProductIdAndIdLessThanOrderByIdDesc(Long productId, Long cursorId, Pageable pageable);
 
-    // 총 리뷰 수
-    Long countByProductId(Long productId);
-
     boolean existsByProductIdAndUserId(Long productId, Long userId);
-
-
 }
