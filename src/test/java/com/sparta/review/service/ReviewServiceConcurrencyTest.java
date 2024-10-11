@@ -50,7 +50,7 @@ class ReviewServiceConcurrencyTest {
                     ReviewDto reviewDto = ReviewDto.builder()
                             .userId(userId)
                             .score(5)  // 모든 리뷰의 점수는 5로 설정
-                            .content("Great product!")
+                            .content("최고의 상품입니다!")
                             .build();
                     reviewService.createReview(testProduct.getId(), reviewDto, null);
                 } catch (Exception e) {
