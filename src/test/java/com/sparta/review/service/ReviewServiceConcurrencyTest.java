@@ -3,7 +3,6 @@ package com.sparta.review.service;
 import com.sparta.review.entity.Product;
 import com.sparta.review.dto.ReviewDto;
 import com.sparta.review.repository.ProductRepository;
-import com.sparta.review.repository.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,6 @@ class ReviewServiceConcurrencyTest {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     private Product testProduct;
 
@@ -77,6 +73,7 @@ class ReviewServiceConcurrencyTest {
         assertEquals(expectedReviewCount, updatedProduct.getReviewCount(), "리뷰 수가 올바르지 않습니다.");
         assertEquals(expectedAverageScore, updatedProduct.getScore(), 0.01, "리뷰 점수가 올바르지 않습니다.");
     }
+
     @Test
     void testConcurrentReviewCreationWithRetry() throws InterruptedException {
         int numberOfThreads = 10;  // 동시에 리뷰를 작성할 사용자 수
